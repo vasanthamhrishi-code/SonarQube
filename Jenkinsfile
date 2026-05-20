@@ -2,16 +2,16 @@ pipeline {
     agent any
 
     environment {
-        // Preserved the exact DockerHub username and image name from your first pipeline
+        // Points directly to your verified DockerHub target
         IMAGE_NAME = "hrishikesh01/python-cicd-demo"
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                // Using the specific GitHub repository target from pipeline 1
+                // Using your specific GitHub repository target
                 git branch: 'main',
-                    url: 'https://github.com/vasanthamhrishi-code/SonarQube.git'
+                    url: 'https://github.com/vasanthamhrishi-code/python-cicd-demo.git'
             }
         }
 
@@ -62,6 +62,18 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME:latest .'
+            }
+        }
+
+        stage('Trivy Security Scan') {
+            steps {
+                sh '''
+                trivy image \
+                  --severity HIGH,CRITICAL \
+                  --exit-code 1 \
+                  --no-progress \
+                  $IMAGE_NAME:latest
+                '''
             }
         }
 

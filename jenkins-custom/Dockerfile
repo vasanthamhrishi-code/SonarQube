@@ -45,3 +45,23 @@ RUN python3 --version && \
 
 # Switch back to the standard Jenkins user for running the controller
 USER jenkins
+
+
+# ============================================
+# Install Trivy
+# ============================================
+USER root
+
+RUN apt-get update && apt-get install -y wget apt-transport-https gnupg lsb-release
+
+# Download and save the official Aqua Security GPG key securely
+RUN wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | tee /usr/share/keyrings/trivy.gpg > /dev/null
+
+# Fix: We use 'generic' instead of '$(lsb_release -sc)' to guarantee package compatibility
+RUN echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | tee /etc/apt/sources.list.d/trivy.list
+
+# Update the package lists with the new repo and install Trivy, cleaning up files afterward
+RUN apt-get update && apt-get install -y trivy && rm -rf /var/lib/apt/lists/*
+
+# Switch back to the standard secure user at the very end of your file
+USER jenkins
