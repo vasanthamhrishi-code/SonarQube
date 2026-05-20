@@ -29,11 +29,14 @@ pipeline {
 
         stage('Run Tests with Coverage') {
             steps {
-                sh '''
-                . venv/bin/activate
-                # Runs verbose tests while creating coverage reports for SonarQube to read
-                pytest tests/ --cov=app --cov-report=xml -v
-                '''
+            sh '''
+            export PYTHONPATH=$WORKSPACE
+            . venv/bin/activate
+            pytest tests/ \
+            --cov=app \
+            --cov-report=xml \
+            -v
+            '''
             }
         }
 
