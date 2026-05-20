@@ -65,3 +65,4 @@ RUN apt-get update && apt-get install -y trivy && rm -rf /var/lib/apt/lists/*
 
 # Switch back to the standard secure user at the very end of your file
 USER jenkins
+
