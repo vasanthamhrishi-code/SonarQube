@@ -24,3 +24,6 @@ pip-audit==2.7.3         # Scans installed packages against CVE databases
 
 # ── Build / packaging ────────────────────────────────────────────────────────
 build==1.2.1             # PEP 517 build frontend (python -m build)
+
+wheel==0.46.2
+setuptools>=80.0.0
