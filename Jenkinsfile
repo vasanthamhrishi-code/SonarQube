@@ -11,7 +11,7 @@ pipeline {
             steps {
                 // Using your specific GitHub repository target
                 git branch: 'main',
-                    url: 'https://github.com/vasanthamhrishi-code/python-cicd-demo.git'
+                    url: 'https://github.com/vasanthamhrishi-code/SonarQube.git'
             }
         }
 
